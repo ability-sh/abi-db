@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option go_package = "./;pb";
+
+package db;
+
+message GetTask {
+	string key = 1;
+}
+
+message GetResult {
+	int32 errno = 1;
+	string errmsg = 2;
+	bytes data = 3;
+}
+
+message PutTask {
+	string key = 1;
+	bytes data = 2;
+}
+
+message PutResult {
+	int32 errno = 1;
+	string errmsg = 2;
+}
+
+message MergeTask {
+	string key = 1;
+	string value = 2;
+}
+
+message MergeResult {
+	int32 errno = 1;
+	string errmsg = 2;
+}
+
+message DelTask {
+	string key = 1;
+}
+
+message DelResult {
+	int32 errno = 1;
+	string errmsg = 2;
+}
+
+service Service {
+	rpc Get (GetTask) returns (GetResult);
+	rpc Put (PutTask) returns (PutResult);
+	rpc Merge (MergeTask) returns (MergeResult);
+	rpc Del (DelTask) returns (DelResult);
+}
+

@@ -1,0 +1,13 @@
+
+name: "abi-db"
+
+services:
+  abi-db:
+    type: "abi-db"
+    driver: aws-s3
+    region: ap-northeast-1
+    bucket: abi-db
+    accesskey: 
+    secret: 
+
+    
