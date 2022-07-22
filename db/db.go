@@ -136,6 +136,10 @@ func (db *database) MergeObject(c Context, key string, object interface{}) error
 	return <-cc.C
 }
 
+func (db *database) Query(c Context, prefix string) (source.Cursor, error) {
+	return db.s.Query(prefix)
+}
+
 func (db *database) NewContext() Context {
 	return &context{C: make(chan error)}
 }
