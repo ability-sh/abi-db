@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.0
 // 	protoc        v3.19.4
-// source: pb/api-db-pb.proto
+// source: pb/abi-db-pb.proto
 
 package pb
 
@@ -32,7 +32,7 @@ type GetTask struct {
 func (x *GetTask) Reset() {
 	*x = GetTask{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[0]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -45,7 +45,7 @@ func (x *GetTask) String() string {
 func (*GetTask) ProtoMessage() {}
 
 func (x *GetTask) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[0]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *GetTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTask.ProtoReflect.Descriptor instead.
 func (*GetTask) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{0}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetTask) GetKey() string {
@@ -88,7 +88,7 @@ type GetResult struct {
 func (x *GetResult) Reset() {
 	*x = GetResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[1]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -101,7 +101,7 @@ func (x *GetResult) String() string {
 func (*GetResult) ProtoMessage() {}
 
 func (x *GetResult) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[1]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -114,7 +114,7 @@ func (x *GetResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetResult.ProtoReflect.Descriptor instead.
 func (*GetResult) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{1}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetResult) GetErrno() int32 {
@@ -151,7 +151,7 @@ type PutTask struct {
 func (x *PutTask) Reset() {
 	*x = PutTask{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[2]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -164,7 +164,7 @@ func (x *PutTask) String() string {
 func (*PutTask) ProtoMessage() {}
 
 func (x *PutTask) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[2]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,7 +177,7 @@ func (x *PutTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutTask.ProtoReflect.Descriptor instead.
 func (*PutTask) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{2}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *PutTask) GetKey() string {
@@ -213,7 +213,7 @@ type PutResult struct {
 func (x *PutResult) Reset() {
 	*x = PutResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[3]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -226,7 +226,7 @@ func (x *PutResult) String() string {
 func (*PutResult) ProtoMessage() {}
 
 func (x *PutResult) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[3]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -239,7 +239,7 @@ func (x *PutResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutResult.ProtoReflect.Descriptor instead.
 func (*PutResult) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{3}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *PutResult) GetErrno() int32 {
@@ -269,7 +269,7 @@ type MergeTask struct {
 func (x *MergeTask) Reset() {
 	*x = MergeTask{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[4]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -282,7 +282,7 @@ func (x *MergeTask) String() string {
 func (*MergeTask) ProtoMessage() {}
 
 func (x *MergeTask) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[4]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -295,7 +295,7 @@ func (x *MergeTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MergeTask.ProtoReflect.Descriptor instead.
 func (*MergeTask) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{4}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *MergeTask) GetKey() string {
@@ -331,7 +331,7 @@ type MergeResult struct {
 func (x *MergeResult) Reset() {
 	*x = MergeResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[5]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -344,7 +344,7 @@ func (x *MergeResult) String() string {
 func (*MergeResult) ProtoMessage() {}
 
 func (x *MergeResult) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[5]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -357,7 +357,7 @@ func (x *MergeResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MergeResult.ProtoReflect.Descriptor instead.
 func (*MergeResult) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{5}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *MergeResult) GetErrno() int32 {
@@ -386,7 +386,7 @@ type DelTask struct {
 func (x *DelTask) Reset() {
 	*x = DelTask{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[6]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -399,7 +399,7 @@ func (x *DelTask) String() string {
 func (*DelTask) ProtoMessage() {}
 
 func (x *DelTask) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[6]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -412,7 +412,7 @@ func (x *DelTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DelTask.ProtoReflect.Descriptor instead.
 func (*DelTask) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{6}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DelTask) GetKey() string {
@@ -441,7 +441,7 @@ type DelResult struct {
 func (x *DelResult) Reset() {
 	*x = DelResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[7]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -454,7 +454,7 @@ func (x *DelResult) String() string {
 func (*DelResult) ProtoMessage() {}
 
 func (x *DelResult) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[7]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -467,7 +467,7 @@ func (x *DelResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DelResult.ProtoReflect.Descriptor instead.
 func (*DelResult) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{7}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DelResult) GetErrno() int32 {
@@ -496,7 +496,7 @@ type ExecTask struct {
 func (x *ExecTask) Reset() {
 	*x = ExecTask{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[8]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -509,7 +509,7 @@ func (x *ExecTask) String() string {
 func (*ExecTask) ProtoMessage() {}
 
 func (x *ExecTask) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[8]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -522,7 +522,7 @@ func (x *ExecTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecTask.ProtoReflect.Descriptor instead.
 func (*ExecTask) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{8}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ExecTask) GetCode() string {
@@ -552,7 +552,7 @@ type ExecResult struct {
 func (x *ExecResult) Reset() {
 	*x = ExecResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_api_db_pb_proto_msgTypes[9]
+		mi := &file_pb_abi_db_pb_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -565,7 +565,7 @@ func (x *ExecResult) String() string {
 func (*ExecResult) ProtoMessage() {}
 
 func (x *ExecResult) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_api_db_pb_proto_msgTypes[9]
+	mi := &file_pb_abi_db_pb_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -578,7 +578,7 @@ func (x *ExecResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecResult.ProtoReflect.Descriptor instead.
 func (*ExecResult) Descriptor() ([]byte, []int) {
-	return file_pb_api_db_pb_proto_rawDescGZIP(), []int{9}
+	return file_pb_abi_db_pb_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ExecResult) GetErrno() int32 {
@@ -602,10 +602,10 @@ func (x *ExecResult) GetData() string {
 	return ""
 }
 
-var File_pb_api_db_pb_proto protoreflect.FileDescriptor
+var File_pb_abi_db_pb_proto protoreflect.FileDescriptor
 
-var file_pb_api_db_pb_proto_rawDesc = []byte{
-	0x0a, 0x12, 0x70, 0x62, 0x2f, 0x61, 0x70, 0x69, 0x2d, 0x64, 0x62, 0x2d, 0x70, 0x62, 0x2e, 0x70,
+var file_pb_abi_db_pb_proto_rawDesc = []byte{
+	0x0a, 0x12, 0x70, 0x62, 0x2f, 0x61, 0x62, 0x69, 0x2d, 0x64, 0x62, 0x2d, 0x70, 0x62, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x02, 0x64, 0x62, 0x22, 0x3b, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x54,
 	0x61, 0x73, 0x6b, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74,
@@ -666,19 +666,19 @@ var file_pb_api_db_pb_proto_rawDesc = []byte{
 }
 
 var (
-	file_pb_api_db_pb_proto_rawDescOnce sync.Once
-	file_pb_api_db_pb_proto_rawDescData = file_pb_api_db_pb_proto_rawDesc
+	file_pb_abi_db_pb_proto_rawDescOnce sync.Once
+	file_pb_abi_db_pb_proto_rawDescData = file_pb_abi_db_pb_proto_rawDesc
 )
 
-func file_pb_api_db_pb_proto_rawDescGZIP() []byte {
-	file_pb_api_db_pb_proto_rawDescOnce.Do(func() {
-		file_pb_api_db_pb_proto_rawDescData = protoimpl.X.CompressGZIP(file_pb_api_db_pb_proto_rawDescData)
+func file_pb_abi_db_pb_proto_rawDescGZIP() []byte {
+	file_pb_abi_db_pb_proto_rawDescOnce.Do(func() {
+		file_pb_abi_db_pb_proto_rawDescData = protoimpl.X.CompressGZIP(file_pb_abi_db_pb_proto_rawDescData)
 	})
-	return file_pb_api_db_pb_proto_rawDescData
+	return file_pb_abi_db_pb_proto_rawDescData
 }
 
-var file_pb_api_db_pb_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_pb_api_db_pb_proto_goTypes = []interface{}{
+var file_pb_abi_db_pb_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_pb_abi_db_pb_proto_goTypes = []interface{}{
 	(*GetTask)(nil),     // 0: db.GetTask
 	(*GetResult)(nil),   // 1: db.GetResult
 	(*PutTask)(nil),     // 2: db.PutTask
@@ -690,7 +690,7 @@ var file_pb_api_db_pb_proto_goTypes = []interface{}{
 	(*ExecTask)(nil),    // 8: db.ExecTask
 	(*ExecResult)(nil),  // 9: db.ExecResult
 }
-var file_pb_api_db_pb_proto_depIdxs = []int32{
+var file_pb_abi_db_pb_proto_depIdxs = []int32{
 	0, // 0: db.Service.Get:input_type -> db.GetTask
 	2, // 1: db.Service.Put:input_type -> db.PutTask
 	4, // 2: db.Service.Merge:input_type -> db.MergeTask
@@ -708,13 +708,13 @@ var file_pb_api_db_pb_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_pb_api_db_pb_proto_init() }
-func file_pb_api_db_pb_proto_init() {
-	if File_pb_api_db_pb_proto != nil {
+func init() { file_pb_abi_db_pb_proto_init() }
+func file_pb_abi_db_pb_proto_init() {
+	if File_pb_abi_db_pb_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_pb_api_db_pb_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetTask); i {
 			case 0:
 				return &v.state
@@ -726,7 +726,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetResult); i {
 			case 0:
 				return &v.state
@@ -738,7 +738,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PutTask); i {
 			case 0:
 				return &v.state
@@ -750,7 +750,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PutResult); i {
 			case 0:
 				return &v.state
@@ -762,7 +762,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*MergeTask); i {
 			case 0:
 				return &v.state
@@ -774,7 +774,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*MergeResult); i {
 			case 0:
 				return &v.state
@@ -786,7 +786,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DelTask); i {
 			case 0:
 				return &v.state
@@ -798,7 +798,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DelResult); i {
 			case 0:
 				return &v.state
@@ -810,7 +810,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ExecTask); i {
 			case 0:
 				return &v.state
@@ -822,7 +822,7 @@ func file_pb_api_db_pb_proto_init() {
 				return nil
 			}
 		}
-		file_pb_api_db_pb_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_pb_abi_db_pb_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ExecResult); i {
 			case 0:
 				return &v.state
@@ -839,18 +839,18 @@ func file_pb_api_db_pb_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_pb_api_db_pb_proto_rawDesc,
+			RawDescriptor: file_pb_abi_db_pb_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_pb_api_db_pb_proto_goTypes,
-		DependencyIndexes: file_pb_api_db_pb_proto_depIdxs,
-		MessageInfos:      file_pb_api_db_pb_proto_msgTypes,
+		GoTypes:           file_pb_abi_db_pb_proto_goTypes,
+		DependencyIndexes: file_pb_abi_db_pb_proto_depIdxs,
+		MessageInfos:      file_pb_abi_db_pb_proto_msgTypes,
 	}.Build()
-	File_pb_api_db_pb_proto = out.File
-	file_pb_api_db_pb_proto_rawDesc = nil
-	file_pb_api_db_pb_proto_goTypes = nil
-	file_pb_api_db_pb_proto_depIdxs = nil
+	File_pb_abi_db_pb_proto = out.File
+	file_pb_abi_db_pb_proto_rawDesc = nil
+	file_pb_abi_db_pb_proto_goTypes = nil
+	file_pb_abi_db_pb_proto_depIdxs = nil
 }

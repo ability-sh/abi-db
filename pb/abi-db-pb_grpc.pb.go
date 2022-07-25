@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.4
-// source: pb/api-db-pb.proto
+// source: pb/abi-db-pb.proto
 
 package pb
 
@@ -243,5 +243,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/api-db-pb.proto",
+	Metadata: "pb/abi-db-pb.proto",
 }

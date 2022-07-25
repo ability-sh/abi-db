@@ -29,6 +29,23 @@ type collection struct {
 	ss  chan exec
 }
 
+type collectionCursor struct {
+	n int
+	s source.Cursor
+}
+
+func (rs *collectionCursor) Next() (string, error) {
+	r, e := rs.s.Next()
+	if e != nil {
+		return "", e
+	}
+	return r[rs.n:], nil
+}
+
+func (rs *collectionCursor) Close() {
+	rs.s.Close()
+}
+
 type database struct {
 	s  source.Source
 	ss []chan exec
@@ -186,7 +203,11 @@ func (ct *collection) MergeObject(c Context, key string, object interface{}) err
 
 func (ct *collection) Query(c Context, prefix string) (source.Cursor, error) {
 	k := fmt.Sprintf("%s%s", ct.key, prefix)
-	return ct.s.Query(k)
+	rs, err := ct.s.Query(k)
+	if err != nil {
+		return nil, err
+	}
+	return &collectionCursor{n: len(ct.key), s: rs}, nil
 }
 
 type execResult struct {
