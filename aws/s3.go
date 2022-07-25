@@ -98,7 +98,9 @@ func (s *s3Cursor) Next() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		s.delimiter = *rs.Delimiter
+		if rs.Delimiter != nil {
+			s.delimiter = *rs.Delimiter
+		}
 		s.isTruncated = rs.IsTruncated
 		s.contents = rs.Contents
 	}
