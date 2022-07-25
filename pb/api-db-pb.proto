@@ -6,6 +6,7 @@ package db;
 
 message GetTask {
 	string key = 1;
+	string collection = 2;
 }
 
 message GetResult {
@@ -17,6 +18,7 @@ message GetResult {
 message PutTask {
 	string key = 1;
 	bytes data = 2;
+	string collection = 3;
 }
 
 message PutResult {
@@ -27,6 +29,7 @@ message PutResult {
 message MergeTask {
 	string key = 1;
 	string value = 2;
+	string collection = 3;
 }
 
 message MergeResult {
@@ -36,6 +39,7 @@ message MergeResult {
 
 message DelTask {
 	string key = 1;
+	string collection = 2;
 }
 
 message DelResult {
@@ -43,10 +47,23 @@ message DelResult {
 	string errmsg = 2;
 }
 
+message ExecTask {
+	string code = 1;
+	string collection = 2;
+}
+
+message ExecResult {
+	int32 errno = 1;
+	string errmsg = 2;
+	string data = 3;
+}
+
+
 service Service {
 	rpc Get (GetTask) returns (GetResult);
 	rpc Put (PutTask) returns (PutResult);
 	rpc Merge (MergeTask) returns (MergeResult);
 	rpc Del (DelTask) returns (DelResult);
+	rpc Exec (ExecTask) returns (ExecResult);
 }
 

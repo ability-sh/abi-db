@@ -2,15 +2,18 @@ package db
 
 import (
 	"crypto/sha1"
-	"log"
+	"fmt"
 	"sync"
 
 	"github.com/ability-sh/abi-db/source"
 	"github.com/ability-sh/abi-lib/dynamic"
 	"github.com/ability-sh/abi-lib/json"
+	"github.com/dop251/goja"
 )
 
 const wCount = 0x100
+
+type exec func(s source.Source, vm *goja.Runtime)
 
 type context struct {
 	C chan error
@@ -20,22 +23,55 @@ func (c *context) Recycle() {
 	close(c.C)
 }
 
+type collection struct {
+	key string
+	s   source.Source
+	ss  chan exec
+}
+
 type database struct {
 	s  source.Source
-	ss []chan func(s source.Source)
+	ss []chan exec
 	w  sync.WaitGroup
 }
 
 func Open(s source.Source) Database {
 	v := &database{s: s}
-	v.ss = make([]chan func(s source.Source), wCount)
+	v.ss = make([]chan exec, wCount)
 	for i := 0; i < wCount; i++ {
-		v.ss[i] = make(chan func(s source.Source), 64)
+		v.ss[i] = make(chan exec, 64)
 		v.w.Add(1)
 
-		go func(C chan func(s source.Source)) {
+		go func(C chan exec) {
 
 			defer v.w.Done()
+
+			vm := goja.New()
+
+			vm.Set("get", func(key string) string {
+				b, err := s.Get(key)
+				if err != nil {
+					if err == source.ErrNoSuchKey {
+						return ""
+					}
+					panic(vm.ToValue(err.Error()))
+				}
+				return string(b)
+			})
+
+			vm.Set("put", func(key string, data string) {
+				err := s.Put(key, []byte(data))
+				if err != nil {
+					panic(vm.ToValue(err.Error()))
+				}
+			})
+
+			vm.Set("del", func(key string) {
+				err := s.Del(key)
+				if err != nil {
+					panic(vm.ToValue(err.Error()))
+				}
+			})
 
 			for {
 
@@ -49,7 +85,7 @@ func Open(s source.Source) Database {
 					break
 				}
 
-				cmd(s)
+				cmd(s, vm)
 			}
 
 		}(v.ss[i])
@@ -61,32 +97,43 @@ func keyIndex(key string) int {
 	m := sha1.New()
 	m.Write([]byte(key))
 	b := m.Sum(nil)
-	log.Println("keyIndex", b)
 	return int(uint8(b[0]))
 }
 
-func (db *database) Put(c Context, key string, data []byte) error {
+func (db *database) Collection(key string) Collection {
+	return &collection{key: key, ss: db.ss[keyIndex(key)], s: db.s}
+}
+
+func (ct *collection) Key() string {
+	return ct.key
+}
+
+func (ct *collection) Put(c Context, key string, data []byte) error {
+	k := fmt.Sprintf("%s%s", ct.key, key)
 	cc := c.(*context)
-	db.ss[keyIndex(key)] <- func(s source.Source) {
-		cc.C <- s.Put(key, data)
+	ct.ss <- func(s source.Source, vm *goja.Runtime) {
+		cc.C <- s.Put(k, data)
 	}
 	return <-cc.C
 }
 
-func (db *database) Del(c Context, key string) error {
+func (ct *collection) Del(c Context, key string) error {
+	k := fmt.Sprintf("%s%s", ct.key, key)
 	cc := c.(*context)
-	db.ss[keyIndex(key)] <- func(s source.Source) {
-		cc.C <- s.Del(key)
+	ct.ss <- func(s source.Source, vm *goja.Runtime) {
+		cc.C <- s.Del(k)
 	}
 	return <-cc.C
 }
 
-func (db *database) Get(c Context, key string) ([]byte, error) {
-	return db.s.Get(key)
+func (ct *collection) Get(c Context, key string) ([]byte, error) {
+	k := fmt.Sprintf("%s%s", ct.key, key)
+	return ct.s.Get(k)
 }
 
-func (db *database) GetObject(c Context, key string) (interface{}, error) {
-	b, err := db.s.Get(key)
+func (ct *collection) GetObject(c Context, key string) (interface{}, error) {
+	k := fmt.Sprintf("%s%s", ct.key, key)
+	b, err := ct.s.Get(k)
 	if err != nil {
 		return nil, err
 	}
@@ -95,20 +142,21 @@ func (db *database) GetObject(c Context, key string) (interface{}, error) {
 	return r, err
 }
 
-func (db *database) PutObject(c Context, key string, object interface{}) error {
+func (ct *collection) PutObject(c Context, key string, object interface{}) error {
 	b, err := json.Marshal(object)
 	if err != nil {
 		return err
 	}
-	return db.Put(c, key, b)
+	return ct.Put(c, key, b)
 }
 
-func (db *database) MergeObject(c Context, key string, object interface{}) error {
+func (ct *collection) MergeObject(c Context, key string, object interface{}) error {
+	k := fmt.Sprintf("%s%s", ct.key, key)
 	cc := c.(*context)
-	db.ss[keyIndex(key)] <- func(s source.Source) {
+	ct.ss <- func(s source.Source, vm *goja.Runtime) {
 		var v interface{} = nil
 
-		b, err := s.Get(key)
+		b, err := s.Get(k)
 		if err != nil {
 			if err != source.ErrNoSuchKey {
 				cc.C <- err
@@ -131,13 +179,42 @@ func (db *database) MergeObject(c Context, key string, object interface{}) error
 			cc.C <- err
 			return
 		}
-		cc.C <- s.Put(key, b)
+		cc.C <- s.Put(k, b)
 	}
 	return <-cc.C
 }
 
-func (db *database) Query(c Context, prefix string) (source.Cursor, error) {
-	return db.s.Query(prefix)
+func (ct *collection) Query(c Context, prefix string) (source.Cursor, error) {
+	k := fmt.Sprintf("%s%s", ct.key, prefix)
+	return ct.s.Query(k)
+}
+
+type execResult struct {
+	data string
+}
+
+func (e *execResult) Error() string {
+	return e.data
+}
+
+func (ct *collection) Exec(c Context, code string) (string, error) {
+	k := ct.key
+	cc := c.(*context)
+	ct.ss <- func(s source.Source, vm *goja.Runtime) {
+		vm.Set("collection", k)
+		rs, err := vm.RunString(code)
+		if err != nil {
+			cc.C <- err
+			return
+		}
+		cc.C <- &execResult{data: rs.String()}
+	}
+	err := <-cc.C
+	r, ok := err.(*execResult)
+	if ok {
+		return r.data, nil
+	}
+	return "", err
 }
 
 func (db *database) NewContext() Context {

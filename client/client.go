@@ -4,61 +4,52 @@ import (
 	"context"
 
 	"github.com/ability-sh/abi-db/pb"
+	"github.com/ability-sh/abi-lib/dynamic"
+	"github.com/ability-sh/abi-lib/errors"
+	"github.com/ability-sh/abi-lib/eval"
 	"github.com/ability-sh/abi-lib/json"
 	"google.golang.org/grpc"
 )
 
-type Error struct {
-	Errno  int32  `json:"errno"`
-	Errmsg string `json:"errmsg"`
-}
-
-func (E *Error) Error() string {
-	return E.Errmsg
-}
-
-type Client struct {
+type Collection struct {
 	cli pb.ServiceClient
+	key string
 }
 
-func NewClient(conn grpc.ClientConnInterface) *Client {
-	return &Client{cli: pb.NewServiceClient(conn)}
-}
-
-func (c *Client) Put(cc context.Context, key string, data []byte) error {
-	rs, err := c.cli.Put(cc, &pb.PutTask{Key: key, Data: data})
+func (c *Collection) Put(cc context.Context, key string, data []byte) error {
+	rs, err := c.cli.Put(cc, &pb.PutTask{Collection: c.key, Key: key, Data: data})
 	if err != nil {
 		return err
 	}
 	if rs.Errno == 200 {
 		return nil
 	}
-	return &Error{Errno: rs.Errno, Errmsg: rs.Errmsg}
+	return errors.Errorf(rs.Errno, "%s", rs.Errmsg)
 }
 
-func (c *Client) Del(cc context.Context, key string) error {
-	rs, err := c.cli.Del(cc, &pb.DelTask{Key: key})
+func (c *Collection) Del(cc context.Context, key string) error {
+	rs, err := c.cli.Del(cc, &pb.DelTask{Collection: c.key, Key: key})
 	if err != nil {
 		return err
 	}
 	if rs.Errno == 200 {
 		return nil
 	}
-	return &Error{Errno: rs.Errno, Errmsg: rs.Errmsg}
+	return errors.Errorf(rs.Errno, "%s", rs.Errmsg)
 }
 
-func (c *Client) Get(cc context.Context, key string) ([]byte, error) {
-	rs, err := c.cli.Get(cc, &pb.GetTask{Key: key})
+func (c *Collection) Get(cc context.Context, key string) ([]byte, error) {
+	rs, err := c.cli.Get(cc, &pb.GetTask{Collection: c.key, Key: key})
 	if err != nil {
 		return nil, err
 	}
 	if rs.Errno == 200 {
 		return rs.Data, nil
 	}
-	return nil, &Error{Errno: rs.Errno, Errmsg: rs.Errmsg}
+	return nil, errors.Errorf(rs.Errno, "%s", rs.Errmsg)
 }
 
-func (c *Client) GetObject(cc context.Context, key string) (interface{}, error) {
+func (c *Collection) GetObject(cc context.Context, key string) (interface{}, error) {
 	b, err := c.Get(cc, key)
 	if err != nil {
 		return nil, err
@@ -75,7 +66,7 @@ func (c *Client) GetObject(cc context.Context, key string) (interface{}, error) 
 	return object, nil
 }
 
-func (c *Client) PutObject(cc context.Context, key string, object interface{}) error {
+func (c *Collection) PutObject(cc context.Context, key string, object interface{}) error {
 	b, err := json.Marshal(object)
 	if err != nil {
 		return err
@@ -83,17 +74,43 @@ func (c *Client) PutObject(cc context.Context, key string, object interface{}) e
 	return c.Put(cc, key, b)
 }
 
-func (c *Client) MergeObject(cc context.Context, key string, object interface{}) error {
+func (c *Collection) MergeObject(cc context.Context, key string, object interface{}) error {
 	b, err := json.Marshal(object)
 	if err != nil {
 		return err
 	}
-	rs, err := c.cli.Merge(cc, &pb.MergeTask{Key: key, Value: string(b)})
+	rs, err := c.cli.Merge(cc, &pb.MergeTask{Collection: c.key, Key: key, Value: string(b)})
 	if err != nil {
 		return err
 	}
 	if rs.Errno == 200 {
 		return nil
 	}
-	return &Error{Errno: rs.Errno, Errmsg: rs.Errmsg}
+	return errors.Errorf(rs.Errno, "%s", rs.Errmsg)
+}
+
+func (c *Collection) Exec(cc context.Context, code string, data interface{}) (string, error) {
+	rs, err := c.cli.Exec(cc, &pb.ExecTask{Collection: c.key, Code: eval.ParseEval(code, func(key string) string {
+		b, _ := json.Marshal(dynamic.Get(data, key))
+		return string(b)
+	})})
+	if err != nil {
+		return "", err
+	}
+	if rs.Errno == 200 {
+		return rs.Data, nil
+	}
+	return "", errors.Errorf(rs.Errno, "%s", rs.Errmsg)
+}
+
+type Client struct {
+	cli pb.ServiceClient
+}
+
+func NewClient(conn grpc.ClientConnInterface) *Client {
+	return &Client{cli: pb.NewServiceClient(conn)}
+}
+
+func (c *Client) Collection(key string) *Collection {
+	return &Collection{key: key, cli: c.cli}
 }

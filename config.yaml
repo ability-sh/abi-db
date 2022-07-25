@@ -7,7 +7,7 @@ services:
     driver: aws-s3
     region: ap-northeast-1
     bucket: abi-db
-    accesskey: 
-    secret: 
+    accesskey: AKIAW4KFHVINTAKRKJUL
+    secret: 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
 
     
