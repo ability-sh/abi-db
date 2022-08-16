@@ -145,5 +145,5 @@ func (s *s3Cursor) Close() {
 }
 
 func (s *s3Source) Query(prefix string, delimiter string) (source.Cursor, error) {
-	return &s3Cursor{s: s, prefix: prefix, ctx: context.Background()}, nil
+	return &s3Cursor{s: s, prefix: prefix, delimiter: delimiter, ctx: context.Background()}, nil
 }
