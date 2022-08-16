@@ -88,13 +88,13 @@ type s3Cursor struct {
 	delimiter             string
 	nextContinuationToken string
 	isTruncated           bool
-	contents              []types.Object
+	keys                  []string
 	index                 int
 	ctx                   context.Context
 }
 
 func (s *s3Cursor) Next() (string, error) {
-	if s.contents == nil {
+	if s.keys == nil {
 		rs, err := s.s.client.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: &s.s.bucket, Prefix: &s.prefix, Delimiter: &s.delimiter})
 		if err != nil {
 			return "", err
@@ -103,9 +103,15 @@ func (s *s3Cursor) Next() (string, error) {
 			s.nextContinuationToken = *rs.NextContinuationToken
 		}
 		s.isTruncated = rs.IsTruncated
-		s.contents = rs.Contents
+		s.keys = []string{}
+		for _, i := range rs.Contents {
+			s.keys = append(s.keys, *i.Key)
+		}
+		for _, i := range rs.CommonPrefixes {
+			s.keys = append(s.keys, *i.Prefix)
+		}
 	}
-	if s.index >= len(s.contents) {
+	if s.index >= len(s.keys) {
 		if s.isTruncated {
 			rs, err := s.s.client.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: &s.s.bucket, Prefix: &s.prefix, Delimiter: &s.delimiter, ContinuationToken: &s.nextContinuationToken})
 			if err != nil {
@@ -115,15 +121,21 @@ func (s *s3Cursor) Next() (string, error) {
 				s.nextContinuationToken = *rs.NextContinuationToken
 			}
 			s.isTruncated = rs.IsTruncated
-			s.contents = rs.Contents
+			s.keys = []string{}
+			for _, i := range rs.Contents {
+				s.keys = append(s.keys, *i.Key)
+			}
+			for _, i := range rs.CommonPrefixes {
+				s.keys = append(s.keys, *i.Prefix)
+			}
 		} else {
 			return "", io.EOF
 		}
 	}
-	if s.index < len(s.contents) {
-		r := s.contents[s.index]
+	if s.index < len(s.keys) {
+		r := s.keys[s.index]
 		s.index += 1
-		return *r.Key, nil
+		return r, nil
 	}
 	return "", io.EOF
 }
