@@ -203,7 +203,7 @@ func (ct *collection) MergeObject(c Context, key string, object interface{}) err
 
 func (ct *collection) Query(c Context, prefix string) (source.Cursor, error) {
 	k := fmt.Sprintf("%s%s", ct.key, prefix)
-	rs, err := ct.s.Query(k)
+	rs, err := ct.s.Query(k, "")
 	if err != nil {
 		return nil, err
 	}

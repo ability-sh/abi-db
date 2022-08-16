@@ -11,7 +11,7 @@ type Source interface {
 	Put(key string, data []byte) error
 	Del(key string) error
 	Get(key string) ([]byte, error)
-	Query(prefix string) (Cursor, error)
+	Query(prefix string, delimiter string) (Cursor, error)
 }
 
 var ErrNoSuchKey = fmt.Errorf("no such key")

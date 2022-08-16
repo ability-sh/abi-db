@@ -83,35 +83,36 @@ func (s *s3Source) Get(key string) ([]byte, error) {
 }
 
 type s3Cursor struct {
-	s           *s3Source
-	prefix      string
-	delimiter   string
-	isTruncated bool
-	contents    []types.Object
-	index       int
-	ctx         context.Context
+	s                     *s3Source
+	prefix                string
+	delimiter             string
+	nextContinuationToken string
+	isTruncated           bool
+	contents              []types.Object
+	index                 int
+	ctx                   context.Context
 }
 
 func (s *s3Cursor) Next() (string, error) {
 	if s.contents == nil {
-		rs, err := s.s.client.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: &s.s.bucket, Prefix: &s.prefix})
+		rs, err := s.s.client.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: &s.s.bucket, Prefix: &s.prefix, Delimiter: &s.delimiter})
 		if err != nil {
 			return "", err
 		}
-		if rs.Delimiter != nil {
-			s.delimiter = *rs.Delimiter
+		if rs.NextContinuationToken != nil {
+			s.nextContinuationToken = *rs.NextContinuationToken
 		}
 		s.isTruncated = rs.IsTruncated
 		s.contents = rs.Contents
 	}
 	if s.index >= len(s.contents) {
 		if s.isTruncated {
-			rs, err := s.s.client.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: &s.s.bucket, Prefix: &s.prefix, Delimiter: &s.delimiter})
+			rs, err := s.s.client.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: &s.s.bucket, Prefix: &s.prefix, Delimiter: &s.delimiter, ContinuationToken: &s.nextContinuationToken})
 			if err != nil {
 				return "", err
 			}
-			if rs.Delimiter != nil {
-				s.delimiter = *rs.Delimiter
+			if rs.NextContinuationToken != nil {
+				s.nextContinuationToken = *rs.NextContinuationToken
 			}
 			s.isTruncated = rs.IsTruncated
 			s.contents = rs.Contents
@@ -131,7 +132,6 @@ func (s *s3Cursor) Close() {
 
 }
 
-func (s *s3Source) Query(prefix string) (source.Cursor, error) {
+func (s *s3Source) Query(prefix string, delimiter string) (source.Cursor, error) {
 	return &s3Cursor{s: s, prefix: prefix, ctx: context.Background()}, nil
-
 }
